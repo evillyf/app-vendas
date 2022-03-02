@@ -4,8 +4,6 @@ from telas import *
 from botoes import *
 
 
-# parei em Ajeitando o Layout da HomePage
-
 
 
 # file onde contém a parte visual da página

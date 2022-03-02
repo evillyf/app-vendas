@@ -1,6 +1,12 @@
 #:include kv/homepage.kv
 #:include kv/ajustespage.kv
+#:include kv/adicionarvendaspage.kv
+#:include kv/adicionarvendedorpage.kv
+#:include kv/fotoperfilpage.kv
+#:include kv/listarvendedorespage.kv
+#:include kv/todasvendaspage.kv
 #:import utils kivy.utils
+
 
 # utils é a importação da biblioteca de cor com hex
 # por padrão aparece a primeira classe na tela do app
@@ -34,6 +40,33 @@ FloatLayout:
         AjustesPage:
             name: "ajustespage"
             id: ajustespage
+
+
+        AdicionarVendasPage:
+            name: "adicionarvendaspage"
+            id: adicionarvendaspage
+
+
+        AdicionarVendedorPage:
+            name: "adicionarvendedorpage"
+            id: adicionarvendedorpage
+
+
+        FotoPerfilPage:
+            name: "fotoperfilpage"
+            id: fotoperfilpage
+
+
+        ListarVendedoresPage:
+            name: "listarvendedorespage"
+            id: listarvendedorespage
+
+
+        TodasVendasPage:
+            name: "todasvendaspage"
+            id: todasvendaspage
+
+
 
 
 
