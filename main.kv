@@ -1,0 +1,43 @@
+#:include kv/homepage.kv
+#:include kv/ajustespage.kv
+#:import utils kivy.utils
+
+# utils é a importação da biblioteca de cor com hex
+# por padrão aparece a primeira classe na tela do app
+FloatLayout:
+    canvas:
+        Color:
+            rgb: utils.get_color_from_hex("#001824")
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+
+    Image:
+        pos_hint: {"right": 1, "top": 0.9}
+        size_hint: 1, 0.2
+        source: "icones/hash.png"
+
+    ScreenManager:
+        pos_hint: {"right": 1, "top": 0.7}
+        size_hint: 1, 0.7
+
+        id: screen_manager
+
+
+        HomePage:
+            name: "homepage"
+            id: homepage
+
+
+
+        AjustesPage:
+            name: "ajustespage"
+            id: ajustespage
+
+
+
+
+
+
+
