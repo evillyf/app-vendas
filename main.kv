@@ -5,7 +5,9 @@
 #:include kv/fotoperfilpage.kv
 #:include kv/listarvendedorespage.kv
 #:include kv/todasvendaspage.kv
+#:include kv/loginpage.kv
 #:import utils kivy.utils
+
 
 
 # utils é a importação da biblioteca de cor com hex
@@ -30,6 +32,11 @@ FloatLayout:
         size_hint: 1, 0.7
 
         id: screen_manager
+
+
+        LoginPage:
+            name: "loginpage"
+            id: loginpage
 
 
         HomePage:

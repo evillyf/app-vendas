@@ -7,7 +7,8 @@ from bannervenda import BannerVenda
 import os
 from functools import partial
 
-# parei em Atualizar Informações no Banco de Dados - Mudar foto de Perfil
+# parei em Criar Conta do Usuário - Google REST API
+# banco de dados: https://console.firebase.google.com/
 # file onde contém a parte visual da página - *comentar bloco atalho: ctrl + /
 GUI = Builder.load_file("main.kv")
 
@@ -78,7 +79,7 @@ class MainApp(App):
         info = f'{{"avatar": "{foto}"}}'
         requisicao = requests.patch(f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/{self.id_usuario}.json", data=info)
 
-        print(requisicao.json)
+        self.mudar_tela("ajustespage")
 
 MainApp().run()
 
