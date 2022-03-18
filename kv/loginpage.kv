@@ -54,7 +54,7 @@
                     pos: self.pos
                     size: self.size
                     source: "icones/botao.png" if self.state == "normal"  else "icones/botao_apertado.png"          
-            on_release: print("criar conta")
+            on_release: app.firebase.criar_conta(email.text, senha.text)
             text: "Criar conta"        
             pos_hint: {"right": 0.95 , "top": 0.3}
             size_hint: 0.4, 0.2 

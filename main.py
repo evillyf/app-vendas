@@ -6,8 +6,9 @@ import requests
 from bannervenda import BannerVenda
 import os
 from functools import partial
+from myfirebase import MyFirebase
 
-# parei em Criar Conta do Usuário - Google REST API
+
 # banco de dados: https://console.firebase.google.com/
 # file onde contém a parte visual da página - *comentar bloco atalho: ctrl + /
 GUI = Builder.load_file("main.kv")
@@ -20,6 +21,7 @@ class MainApp(App):
     id_usuario = 1
 
     def build(self):
+        self.firebase = MyFirebase()
         return GUI
 
     def on_start(self):
