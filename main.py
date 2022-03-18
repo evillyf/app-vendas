@@ -5,6 +5,7 @@ from botoes import *
 import requests
 from bannervenda import BannerVenda
 import os
+from functools import partial
 
 # parei em Atualizar Informações no Banco de Dados - Mudar foto de Perfil
 # file onde contém a parte visual da página - *comentar bloco atalho: ctrl + /
@@ -27,7 +28,7 @@ class MainApp(App):
         lista_fotos = pagina_fotoperfil.ids["lista_fotos_perfil"]
 
         for foto in arquivos:
-            imagem = ImageButton(source=f"icones/fotos_perfil/{foto}", on_release=self.mudar_foto_perfil)
+            imagem = ImageButton(source=f"icones/fotos_perfil/{foto}", on_release=partial(self.mudar_foto_perfil, foto))
             lista_fotos.add_widget(imagem)
 
         # carrega as infos do usuario
@@ -69,14 +70,19 @@ class MainApp(App):
 
 
 
-    def mudar_foto_perfil(self, *args):
-        print("Mudar foto perfil")
+    def mudar_foto_perfil(self, foto, *args):
+        foto_perfil = self.root.ids["foto_perfil"]
+        foto_perfil.source = f"icones/fotos_perfil/{foto}"        
 
 
+        info = f'{{"avatar": "{foto}"}}'
+        requisicao = requests.patch(f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/{self.id_usuario}.json", data=info)
 
-
+        print(requisicao.json)
 
 MainApp().run()
+
+
 
 
 
