@@ -27,6 +27,14 @@ class MyFirebase():
 
             with open("refreshtoken.txt", "w") as arquivo:
                 arquivo.write(refresh_token)
+
+
+            link = f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/{local_id}.json"
+
+            info_usuario = '{"avatar": "foto1.png", "equipe": "", "total_vendas": "0", "vendas": ""}'
+            requisicao_usuario = requests.patch(link, data=info_usuario)
+            meu_aplicativo.mudar_tela("homepage")
+
         else:
             mensagem_erro = requisicao_dic["error"]["message"]
             meu_aplicativo = App.get_running_app()
