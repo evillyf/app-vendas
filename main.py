@@ -41,6 +41,12 @@ class MainApp(App):
 
     def carregar_infos_usuario(self):
         try:
+            with open("refreshtoken.txt", "r") as arquivo:
+                refresh_token = arquivo.read()
+
+            local_id, id_token = self.firebase.trocar_token(refresh_token)
+            self.local_id = local_id
+            self.id_token = id_token
             #pegar informações do usuario
             requisicao = requests.get(
                 f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/{self.local_id}.json")
@@ -67,6 +73,8 @@ class MainApp(App):
 
             except:
                 pass
+
+            self.mudar_tela("homepage")
         except:
             pass
 
