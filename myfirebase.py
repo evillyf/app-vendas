@@ -33,6 +33,7 @@ class MyFirebase():
 
             info_usuario = '{"avatar": "foto1.png", "equipe": "", "total_vendas": "0", "vendas": ""}'
             requisicao_usuario = requests.patch(link, data=info_usuario)
+            meu_aplicativo.carregar_infos_usuario()
             meu_aplicativo.mudar_tela("homepage")
 
         else:
