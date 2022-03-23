@@ -34,8 +34,8 @@ class MainApp(App):
         lista_clientes = pagina_adicionarvendas.ids["lista_clientes"]
 
         for foto_cliente in arquivos:
-            imagem = ImageButton(source=f"icones/fotos_clientes/{foto_cliente}")
-            label = LabelButton(text=foto_cliente.replace(".png", "").capitalize())
+            imagem = ImageButton(source=f"icones/fotos_clientes/{foto_cliente}", on_release=partial(self.selecionar_cliente, foto_cliente))
+            label = LabelButton(text=foto_cliente.replace(".png", "").capitalize(), on_release=partial(self.selecionar_cliente, foto_cliente))
             lista_clientes.add_widget(imagem)
             lista_clientes.add_widget(label)
 
@@ -47,8 +47,8 @@ class MainApp(App):
         lista_produtos = pagina_adicionarvendas.ids["lista_produtos"]
 
         for foto_produto in arquivos:
-            imagem = ImageButton(source=f"icones/fotos_produtos/{foto_produto}")
-            label = LabelButton(text=foto_produto.replace(".png", "").capitalize())
+            imagem = ImageButton(source=f"icones/fotos_produtos/{foto_produto}", on_release=partial(self.selecionar_produto, foto_produto))
+            label = LabelButton(text=foto_produto.replace(".png", "").capitalize(), on_release=partial(self.selecionar_produto, foto_produto))
             lista_produtos.add_widget(imagem)
             lista_produtos.add_widget(label)       
 
@@ -163,5 +163,56 @@ class MainApp(App):
 
                 #mudar tela depois que add um vendedor 
                 #self.mudar_tela("ajustespage")
+
+    def selecionar_cliente(self, foto, *args):
+
+        # pintar de branco todas as outras letras
+        pagina_adicionarvendas = self.root.ids["adicionarvendaspage"]
+        lista_clientes = pagina_adicionarvendas.ids["lista_clientes"]
+
+        for item in list(lista_clientes.children):
+            item.color = (1, 1, 1, 1)       
+
+        # pintar de azul a letra do item selecionado
+        # foto -> carrefour.png / label -> Carrefour -> carrefour -> carrefour.png
+
+            try:
+                texto = item.text
+                texto = texto.lower() + ".png"
+                if foto == texto:
+                    item.color = (0, 207/255, 219/255, 1)
+
+            
+            except:
+                pass
+
+
+    def selecionar_cliente(self, foto, *args):
+
+        # pintar de branco todas as outras letras
+        pagina_adicionarvendas = self.root.ids["adicionarvendaspage"]
+        lista_produtos = pagina_adicionarvendas.ids["lista_produtos"]
+
+        for item in list(lista_clientes.children):
+            item.color = (1, 1, 1, 1)       
+
+        # pintar de azul a letra do item selecionado
+        # foto -> carrefour.png / label -> Carrefour -> carrefour -> carrefour.png
+
+            try:
+                texto = item.text
+                texto = texto.lower() + ".png"
+                if foto == texto:
+                    item.color = (0, 207/255, 219/255, 1)
+
+            
+            except:
+                pass            
+
+
+       
+
+        
+        pass
 
 MainApp().run()
