@@ -11,6 +11,7 @@
             pos_hint: {"right": 1, "top": 1}
             size_hint: 1, 0.05
             text: "Selecione o Cliente"
+            id: label_selecione_cliente
         ScrollView:
             pos_hint: {"right": 1, "top": 0.95}
             size_hint: 1, 0.15
@@ -27,6 +28,7 @@
             pos_hint: {"right": 1, "top": 0.75}
             size_hint: 1, 0.05
             text: "Selecione o Produto"
+            id: label_selecione_produto
         ScrollView:
             pos_hint: {"right": 1, "top": 0.7}
             size_hint: 1, 0.15
@@ -54,15 +56,15 @@
             pos_hint: {"right": 0.9, "top": 0.45}
             size_hint: 0.8, 0.1
             LabelButton:
-                text: "Kg"
+                text: "kg"
                 id: unidades_kg
                 on_release: app.selecionar_unidade("unidades_kg")
             LabelButton:
-                text: "Unidades"
+                text: "unidades"
                 id: unidades_unidades
                 on_release: app.selecionar_unidade("unidades_unidades")
             LabelButton:  
-                text: "Litros"   
+                text: "litros"   
                 id: unidades_litros 
                 on_release: app.selecionar_unidade("unidades_litros")
 
@@ -87,7 +89,7 @@
                     pos: self.pos
                     size: self.size
                     source: "icones/botao.png" if self.state == "normal"  else "icones/botao_apertado.png"          
-            on_release: print("add venda")
+            on_release: app.adicionar_venda()
             text: "Adicionar Venda"        
             pos_hint: {"right": 0.95 , "top": 0.2}
             size_hint: 0.4, 0.2 
@@ -103,6 +105,7 @@
             size_hint: 0.8, 0.075
             Label:
                 text: "Preço Total (R$)"
+                id: label_preco
             TextInput:
                 id: preco_total
                 hint_text: "Digite apenas números"
@@ -114,8 +117,9 @@
             size_hint: 0.8, 0.075
             Label:
                 text: "Quantidade Total (R$)"
+                id: label_quantidade
             TextInput:
-                id: quantidade_total
+                id: quantidade
                 hint_text: "0"   
 
                         

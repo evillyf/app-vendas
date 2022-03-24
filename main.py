@@ -1,3 +1,4 @@
+from urllib import request
 from kivy.app import App
 from kivy.lang import Builder
 from telas import *
@@ -12,6 +13,10 @@ from datetime import date
 
 GUI = Builder.load_file("main.kv")
 class MainApp(App):
+    cliente = None
+    produto = None
+    unidade = None
+
 
     def build(self):
         self.firebase = MyFirebase()
@@ -163,6 +168,7 @@ class MainApp(App):
                 lista_vendedores.add_widget(banner_vendedor)
 
     def selecionar_cliente(self, foto, *args):
+        self.cliente = foto.replace(".png", "")
         # pintar de branco todas as outras letras
         pagina_adicionarvendas = self.root.ids["adicionarvendaspage"]
         lista_clientes = pagina_adicionarvendas.ids["lista_clientes"]
@@ -180,6 +186,7 @@ class MainApp(App):
                 pass
 
     def selecionar_produto(self, foto, *args):
+        self.produto = foto.replace(".png", "")
         # pintar de branco todas as outras letras
         pagina_adicionarvendas = self.root.ids["adicionarvendaspage"]
         lista_produtos = pagina_adicionarvendas.ids["lista_produtos"]
@@ -197,6 +204,7 @@ class MainApp(App):
 
     def selecionar_unidade(self, id_label, *args):
         pagina_adicionarvendas = self.root.ids["adicionarvendaspage"]
+        self.unidade = id_label
 
         pagina_adicionarvendas.ids["unidades_kg"].color = (1, 1, 1, 1)
         pagina_adicionarvendas.ids["unidades_unidades"].color = (1, 1, 1, 1)
@@ -204,5 +212,64 @@ class MainApp(App):
 
         # pintar o item selecionado de azul
         pagina_adicionarvendas.ids[id_label].color = (0, 207/255, 219/255, 1)
+
+
+    
+    def adicionar_venda(self):
+        cliente = self.cliente
+        produto = self.produto
+        unidade = self.unidade
+
+        pagina_adicionarvendas = self.root.ids["adicionarvendaspage"]
+        data = pagina_adicionarvendas.ids["label_data"].text.replace("Data: ", "")
+        preco = pagina_adicionarvendas.ids["preco_total"].text
+        quantidade = pagina_adicionarvendas.ids["quantidade"].text
+
+        if not cliente:
+            pagina_adicionarvendas.ids["label_selecione_cliente"].color = (1, 0, 0, 1)
+        if not produto:
+            pagina_adicionarvendas.ids["label_selecione_produto"].color = (1, 0, 0, 1)
+        if not unidade:
+            pagina_adicionarvendas.ids["unidades_kg"].color = (1, 0, 0, 1)
+            pagina_adicionarvendas.ids["unidades_unidades"].color = (1, 0, 0, 1)
+            pagina_adicionarvendas.ids["unidades_litros"].color = (1, 0, 0, 1)
+
+        if not preco:
+            pagina_adicionarvendas.ids["label_preco"].color = (1, 0, 0, 1)
+        else:
+            try:
+                preco = float(preco)
+            except:
+                pagina_adicionarvendas.ids["label_preco"].color = (1, 0, 0, 1)
+
+
+        if not quantidade:
+            pagina_adicionarvendas.ids["label_quantidade"].color = (1, 0, 0, 1)
+
+        else:
+            try:
+                quantidade = float(quantidade)
+            except:
+                pagina_adicionarvendas.ids["label_quantidade"].color = (1, 0, 0, 1)
+
+
+
+        # caso foi tudo preenchido, será executado o code de adicionar venda
+
+        if cliente and produto and unidade and preco and quantidade and (type(preco) == float) and (type(quantidade) == float):
+            foto_produto = produto + ".png"
+            foto_cliente = cliente + ".png" 
+
+            info = f'{{"cliente": "{cliente}", "produto": "{produto}", "foto_cliente": "{foto_cliente}", "foto_produto": "{foto_produto}", "data": "{data}", "unidade": "{unidade}", "preco": "{preco}", "quantidade": "{quantidade}"}}'
+            requests.post(f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/{self.local.id}/vendas.json", data=info)
+
+
+        self.cliente = None
+        self.produto = None
+        self.unidade = None        
+
+
+
+        
 
 MainApp().run()
