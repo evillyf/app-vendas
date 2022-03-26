@@ -289,11 +289,17 @@ class MainApp(App):
 
 
     def carregar_todas_vendas(self):
+        pagina_todasvendas = self.root.ids["todasvendaspage"]
+        lista_vendas = pagina_todasvendas.ids["lista_vendas"]
+        
+        for item in list(lista_vendas.children):
+            lista_vendas.remove_widget(item)
+
+
         #preencher a pagina todasvendas
         # pegar informações da empresa
         requisicao = requests.get(f'https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/.json?orderBy="id_vendedor"')        
         requisicao_dic = requisicao.json()
-        print(requisicao_dic)
 
         # preencher foto de perfil da empresa
         foto_perfil = self.root.ids["foto_perfil"]
@@ -301,8 +307,6 @@ class MainApp(App):
 
 
 
-        pagina_todasvendas = self.root.ids["todasvendaspage"]
-        lista_vendas = pagina_todasvendas.ids["lista_vendas"]
         total_vendas = 0
         for local_id_usuario in requisicao_dic:
             try:

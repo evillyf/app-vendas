@@ -38,3 +38,7 @@ class TodasVendasPage(Screen):
 
 class LoginPage(Screen):
     pass
+
+
+class VendasOutroVendedorPage(Screen):
+    pass
