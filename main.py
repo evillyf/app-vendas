@@ -285,10 +285,48 @@ class MainApp(App):
 
         self.cliente = None
         self.produto = None
-        self.unidade = None        
+        self.unidade = None    
+
+
+    def carregar_todas_vendas(self):
+        #preencher a pagina todasvendas
+        # pegar informações da empresa
+        requisicao = requests.get(f'https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/.json?orderBy="id_vendedor"')        
+        requisicao_dic = requisicao.json()
+        print(requisicao_dic)
+
+        # preencher foto de perfil da empresa
+        foto_perfil = self.root.ids["foto_perfil"]
+        foto_perfil.source = f"icones/fotos_perfil/hash.png"
 
 
 
+        pagina_todasvendas = self.root.ids["todasvendaspage"]
+        lista_vendas = pagina_todasvendas.ids["lista_vendas"]
+        total_vendas = 0
+        for local_id_usuario in requisicao_dic:
+            try:
+                vendas = requisicao_dic[local_id_usuario]["vendas"]
+                for id_venda in vendas:
+                    venda = vendas[id_venda]
+                    total_vendas += float(venda["preco"])
+                    banner = BannerVenda(cliente=venda['cliente'], produto=venda['produto'], foto_cliente=venda['foto_cliente'], foto_produto=venda['foto_produto'], data=venda['data'], preco=venda['preco'], quantidade=venda['quantidade'], unidade=venda['unidade'])
+                    lista_vendas.add_widget(banner)
+
+            except Exception as excecao:
+                print(excecao)
+
+        # preencher o total de vendas
+        pagina_todasvendas.ids["label_total_vendas"].text = f"[color=#000000]Total de Vendas:[/color] [b]R${total_vendas}[/b]"
+
+    
+        # redirecionar pra pagina todasvendaspage
+        self.mudar_tela("todasvendaspage")
+
+    def sair_todas_vendas(self):
+        foto_perfil = self.root.ids["foto_perfil"]
+        foto_perfil.source = f"icones/fotos_perfil/{self.avatar}"
+        self.mudar_tela("ajustespage")
         
 
 MainApp().run()
