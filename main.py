@@ -327,10 +327,10 @@ class MainApp(App):
         # redirecionar pra pagina todasvendaspage
         self.mudar_tela("todasvendaspage")
 
-    def sair_todas_vendas(self):
+    def sair_todas_vendas(self, id_tela):
         foto_perfil = self.root.ids["foto_perfil"]
         foto_perfil.source = f"icones/fotos_perfil/{self.avatar}"
-        self.mudar_tela("ajustespage")
+        self.mudar_tela(id_tela)
         
 
     def carregar_vendas_vendedor(self, dic_info_vendedor, *args):
