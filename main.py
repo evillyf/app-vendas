@@ -339,6 +339,11 @@ class MainApp(App):
             vendas = dic_info_vendedor["vendas"]
             pagina_vendasoutrovendedor = self.root.ids["vendasoutrovendedorpage"]
             lista_vendas = pagina_vendasoutrovendedor.ids["lista_vendas"]
+            # limpar vendas anteriores
+            for item in list(lista_vendas.children):
+                lista_vendas.remove_widget(item)  
+
+
             for id_venda in vendas:
                 venda = vendas[id_venda]
                 banner = BannerVenda(cliente=venda["cliente"], produto=venda["produto"], foto_cliente=venda["foto_cliente"],
@@ -347,6 +352,8 @@ class MainApp(App):
                 lista_vendas.add_widget(banner)
         except:
             pass
+
+
 
         # preencher total de vendas
         total_vendas = dic_info_vendedor["total_vendas"]
