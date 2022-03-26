@@ -317,8 +317,8 @@ class MainApp(App):
                     banner = BannerVenda(cliente=venda['cliente'], produto=venda['produto'], foto_cliente=venda['foto_cliente'], foto_produto=venda['foto_produto'], data=venda['data'], preco=venda['preco'], quantidade=venda['quantidade'], unidade=venda['unidade'])
                     lista_vendas.add_widget(banner)
 
-            except Exception as excecao:
-                print(excecao)
+            except:
+                pass
 
         # preencher o total de vendas
         pagina_todasvendas.ids["label_total_vendas"].text = f"[color=#000000]Total de Vendas:[/color] [b]R${total_vendas}[/b]"
@@ -332,5 +332,33 @@ class MainApp(App):
         foto_perfil.source = f"icones/fotos_perfil/{self.avatar}"
         self.mudar_tela("ajustespage")
         
+
+    def carregar_vendas_vendedor(self, dic_info_vendedor, *args):
+        
+        try:
+            vendas = dic_info_vendedor["vendas"]
+            pagina_vendasoutrovendedor = self.root.ids["vendasoutrovendedorpage"]
+            lista_vendas = pagina_vendasoutrovendedor.ids["lista_vendas"]
+            for id_venda in vendas:
+                venda = vendas[id_venda]
+                banner = BannerVenda(cliente=venda["cliente"], produto=venda["produto"], foto_cliente=venda["foto_cliente"],
+                                     foto_produto=venda["foto_produto"], data=venda["data"],
+                                     preco=venda["preco"], quantidade=venda["quantidade"], unidade=venda["unidade"])
+                lista_vendas.add_widget(banner)
+        except:
+            pass
+
+        # preencher total de vendas
+        total_vendas = dic_info_vendedor["total_vendas"]
+        pagina_vendasoutrovendedor.ids["label_total_vendas"].text = f"[color=#000000]Total de Vendas:[/color] [b]R${total_vendas}[/b]"
+
+        # preencher foto de perfil
+        foto_perfil = self.root.ids["foto_perfil"]
+        avatar = dic_info_vendedor["avatar"]
+        foto_perfil.source = f"icones/fotos_perfil/{avatar}"
+
+        self.mudar_tela("vendasoutrovendedorpage")
+
+
 
 MainApp().run()
