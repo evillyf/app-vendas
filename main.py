@@ -98,19 +98,20 @@ class MainApp(App):
 
             # preencher lista de vendas
             try:
-                vendas = requisicao_dic['vendas'][1:]
+                vendas = requisicao_dic['vendas']
                 self.vendas = vendas
                 pagina_homepage = self.root.ids["homepage"]
                 lista_vendas = pagina_homepage.ids["lista_vendas"]
-                for venda in vendas:
+                for id_venda in vendas:
+                    venda = vendas[id_venda]
                     banner = BannerVenda(cliente=venda["cliente"], foto_cliente=venda["foto_cliente"],
                                          produto=venda["produto"], foto_produto=venda["foto_produto"],
                                          data=venda['data'], preco=venda['preco'],
                                          unidade=venda['unidade'], quantidade=venda["quantidade"])
 
                     lista_vendas.add_widget(banner)
-            except:
-                pass
+            except Exception as excecao:
+                print(excecao)
 
             # preencher equipe de vendedores
             equipe = requisicao_dic["equipe"]
@@ -204,7 +205,7 @@ class MainApp(App):
 
     def selecionar_unidade(self, id_label, *args):
         pagina_adicionarvendas = self.root.ids["adicionarvendaspage"]
-        self.unidade = id_label
+        self.unidade = id_label.replace("unidades_", "")
 
         pagina_adicionarvendas.ids["unidades_kg"].color = (1, 1, 1, 1)
         pagina_adicionarvendas.ids["unidades_unidades"].color = (1, 1, 1, 1)
@@ -261,7 +262,25 @@ class MainApp(App):
             foto_cliente = cliente + ".png" 
 
             info = f'{{"cliente": "{cliente}", "produto": "{produto}", "foto_cliente": "{foto_cliente}", "foto_produto": "{foto_produto}", "data": "{data}", "unidade": "{unidade}", "preco": "{preco}", "quantidade": "{quantidade}"}}'
-            requests.post(f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/{self.local.id}/vendas.json", data=info)
+            requests.post(f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/{self.local_id}/vendas.json", data=info)
+            
+            banner = BannerVenda(cliente=cliente, produto=produto, foto_cliente=foto_cliente, foto_produto=foto_produto, data=data, preco=preco, quantidade=quantidade, unidade=unidade)
+            pagina_homepage = self.root.ids["homepage"]
+            lista_vendas = pagina_homepage.ids["lista_vendas"]
+            lista_vendas.add_widget(banner)
+              
+            
+
+            requisicao = requests.get(f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/{self.local_id}/total_vendas.json")
+            total_vendas = float(requisicao.json())
+            total_vendas += preco 
+            info = f'{{"total_vendas": "{total_vendas}"}}'
+            requests.patch(f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/{self.local_id}.json", data=info)
+            homepage = self.root.ids["homepage"]
+            homepage.ids["label_total_vendas"].text = f"[color=#000000]Total de Vendas:[/color] [b]R${total_vendas}[/b]"
+
+
+            self.mudar_tela("homepage")
 
 
         self.cliente = None

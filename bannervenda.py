@@ -25,8 +25,8 @@ class BannerVenda(GridLayout):
         foto_produto = kwargs['foto_produto']
         data = kwargs['data']
         unidade = kwargs['unidade']
-        quantidade = kwargs['quantidade']
-        preco = kwargs['preco']
+        quantidade = float(kwargs['quantidade'])
+        preco = float(kwargs['preco'])
 
         esquerda = FloatLayout()
         esquerda_imagem = Image(pos_hint={"right":1, "top":0.95}, size_hint=(1, 0.75), source=f"icones/fotos_clientes/{foto_cliente}")
