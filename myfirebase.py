@@ -29,10 +29,10 @@ class MyFirebase():
                 arquivo.write(refresh_token)
 
 
-            req_id = requests.get("https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/proximo_id_vendedor.json")
+            req_id = requests.get(f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/proximo_id_vendedor.json?auth={id_token}")
             id_vendedor = req_id.json()
 
-            link = f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/{local_id}.json"
+            link = f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/{local_id}.json?auth={id_token}"
 
             info_usuario = f'{{"avatar": "foto1.png", "equipe": "", "total_vendas": "0", "vendas": "", "id_vendedor": "{id_vendedor}"}}'
             requisicao_usuario = requests.patch(link, data=info_usuario)
@@ -41,7 +41,7 @@ class MyFirebase():
 
             proximo_id_vendedor = int(id_vendedor) + 1
             info_id_vendedor = f'{{"proximo_id_vendedor": "{proximo_id_vendedor}"}}'
-            requests.patch("https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/.json", data=info_id_vendedor)
+            requests.patch(f"https://aplicativovendas-6d2e9-default-rtdb.firebaseio.com/.json?auth={id_token}", data=info_id_vendedor)
 
 
 
